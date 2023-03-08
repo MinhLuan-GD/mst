@@ -102,14 +102,19 @@ const data = [
   },
 ];
 
-const products = myDocument<Product>(data);
+const main = async () => {
+  const products = myDocument<Product>(data);
 
-const newProductOne = products.create({
-  productName: "Product 3",
-  price: 300,
-  category: {
-    categoryName: "Category 3",
-  },
-});
+  const newProduct = await products.create({
+    productName: "Product 3",
+    price: 300,
+    category: {
+      categoryName: "Category 3",
+    },
+  });
 
-console.log(products.find());
+  console.log("new product");
+  console.log(await products.findById(newProduct._id));
+};
+
+main();
