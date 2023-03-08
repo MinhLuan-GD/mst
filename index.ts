@@ -14,7 +14,7 @@ interface MyDocument<T> {
 interface Product {
   productName: string;
   price: number;
-  category: Category;
+  categoryId: string;
 }
 
 interface Category {
@@ -83,38 +83,43 @@ const makeId = () => {
   return result;
 };
 
-const data = [
+const productData = [
   {
     _id: makeId(),
     productName: "Product 1",
     price: 100,
-    category: {
-      categoryName: "Category 1",
-    },
+    categoryId: "123",
   },
   {
     _id: makeId(),
     productName: "Product 2",
     price: 200,
-    category: {
-      categoryName: "Category 2",
-    },
+    categoryId: "456",
+  },
+];
+
+const categoryData = [
+  {
+    _id: "123",
+    categoryName: "Category 1",
+  },
+  {
+    _id: "456",
+    categoryName: "Category 2",
   },
 ];
 
 const main = async () => {
-  const products = myDocument<Product>(data);
+  const products = myDocument<Product>(productData);
+  const categories = myDocument<Category>(categoryData);
 
   const newProduct = await products.create({
     productName: "Product 3",
     price: 300,
-    category: {
-      categoryName: "Category 3",
-    },
+    categoryId: "123",
   });
 
-  console.log("new product");
-  console.log(await products.findById(newProduct._id));
+  console.log(await categories.find());
 };
 
 main();
