@@ -24,7 +24,7 @@ interface Category {
 function myDocument<T>(docs: Array<T & { _id: string }>): MyDocument<T> {
   return {
     async create(doc: T): Promise<T & { _id: string }> {
-      const newDoc = { ...doc, _id: new Date().toISOString() };
+      const newDoc = { _id: makeId(), ...doc };
       docs.push(newDoc);
       return newDoc;
     },
@@ -70,9 +70,22 @@ function myDocument<T>(docs: Array<T & { _id: string }>): MyDocument<T> {
   };
 }
 
+const makeId = () => {
+  let result = "";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < 5) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
+  }
+  return result;
+};
+
 const data = [
   {
-    _id: "1",
+    _id: makeId(),
     productName: "Product 1",
     price: 100,
     category: {
@@ -80,7 +93,7 @@ const data = [
     },
   },
   {
-    _id: "2",
+    _id: makeId(),
     productName: "Product 2",
     price: 200,
     category: {
@@ -98,3 +111,5 @@ const newProductOne = products.create({
     categoryName: "Category 3",
   },
 });
+
+console.log(products.find());

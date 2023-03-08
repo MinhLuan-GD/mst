@@ -1,7 +1,7 @@
 function myDocument(docs) {
     return {
         async create(doc) {
-            const newDoc = { ...doc, _id: new Date().toISOString() };
+            const newDoc = { _id: makeId(), ...doc };
             docs.push(newDoc);
             return newDoc;
         },
@@ -41,9 +41,20 @@ function myDocument(docs) {
         },
     };
 }
+const makeId = () => {
+    let result = "";
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < 5) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
+    }
+    return result;
+};
 const data = [
     {
-        _id: "1",
+        _id: makeId(),
         productName: "Product 1",
         price: 100,
         category: {
@@ -51,7 +62,7 @@ const data = [
         },
     },
     {
-        _id: "2",
+        _id: makeId(),
         productName: "Product 2",
         price: 200,
         category: {
@@ -68,4 +79,3 @@ const newProductOne = products.create({
     },
 });
 console.log(products.find());
-console.log(data);
