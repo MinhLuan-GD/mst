@@ -11,6 +11,10 @@ interface MyDocument<T> {
   ): Promise<T & { _id: string }>;
 }
 
+interface Order {
+  orderName: string;
+}
+
 interface Product {
   productName: string;
   price: number;
